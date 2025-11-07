@@ -3,27 +3,29 @@ package com.example.mvvmdemo.ui.screen
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.mvvmdemo.MainActivity
 import com.example.mvvmdemo.ui.viewmodel.RegistrationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationScreen(navController: NavController, viewModel: RegistrationViewModel = viewModel()) {
-    val email by viewModel.email.collectAsState()
-    val password by viewModel.password.collectAsState()
-    val confirmPassword by viewModel.confirmPassword.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
-    val registrationSuccess by viewModel.registrationSuccess.collectAsState()
+    val email by viewModel.email.observeAsState("")
+    val password by viewModel.password.observeAsState("")
+    val confirmPassword by viewModel.confirmPassword.observeAsState("")
+    val isLoading by viewModel.isLoading.observeAsState(false)
+    val errorMessage by viewModel.errorMessage.observeAsState()
+    val registrationSuccess by viewModel.registrationSuccess.observeAsState()
 
     LaunchedEffect(registrationSuccess) {
         if (registrationSuccess == true) {
-            navController.navigate("hello") {
+            navController.navigate(MainActivity.ROUTE_HELLO) {
                 popUpTo("login") { inclusive = true }
             }
         }
