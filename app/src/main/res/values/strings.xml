@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MVVMDemo</string>
+    <string name="notification_channel_login_name">Login Notifications</string>
+    <string name="notification_channel_login_description">Notifies you when you successfully log in.</string>
+    <string name="notification_login_success_title">Login successful</string>
+    <string name="notification_login_success_message">Welcome back, %1$s!</string>
+    <string name="notification_login_success_action_view">View welcome screen</string>
+    <string name="notification_permission_rationale">We use notifications to welcome you after you sign in. Please allow notifications to continue.</string>
+    <string name="notification_permission_denied_message">Notification permission was denied. You can enable it in system settings to receive welcome updates.</string>
+    <string name="notification_permission_disabled_message">Notifications are currently disabled for MVVMDemo. Enable them in settings to receive welcome messages.</string>
 </resources>

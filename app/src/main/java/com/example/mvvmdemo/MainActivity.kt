@@ -16,8 +16,15 @@ import com.example.mvvmdemo.ui.screen.RegistrationScreen
 import com.example.mvvmdemo.ui.theme.MVVMDemoTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val startDestination = if (intent?.getStringExtra(EXTRA_NAVIGATE_TO) == ROUTE_HELLO) {
+            ROUTE_HELLO
+        } else {
+            ROUTE_LOGIN
+        }
+
         setContent {
             MVVMDemoTheme {
                 Surface(
@@ -25,23 +32,30 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    
+
                     NavHost(
                         navController = navController,
-                        startDestination = "login"
+                        startDestination = startDestination
                     ) {
-                        composable("login") {
+                        composable(ROUTE_LOGIN) {
                             LoginScreen(navController = navController)
                         }
-                        composable("registration") {
+                        composable(ROUTE_REGISTRATION) {
                             RegistrationScreen(navController = navController)
                         }
-                        composable("hello") {
+                        composable(ROUTE_HELLO) {
                             HelloScreen(navController = navController)
                         }
                     }
                 }
             }
         }
+    }
+
+    companion object {
+        const val EXTRA_NAVIGATE_TO = "extra_navigate_to"
+        private const val ROUTE_LOGIN = "login"
+        private const val ROUTE_REGISTRATION = "registration"
+        const val ROUTE_HELLO = "hello"
     }
 }

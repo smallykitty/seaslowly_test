@@ -3,6 +3,7 @@ package com.example.mvvmdemo.ui.screen
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -12,7 +13,7 @@ import com.example.mvvmdemo.ui.viewmodel.HelloViewModel
 
 @Composable
 fun HelloScreen(navController: NavController, viewModel: HelloViewModel = viewModel()) {
-    val userEmail by viewModel.userEmail.collectAsState()
+    val userEmail by viewModel.userEmail.observeAsState()
 
     LaunchedEffect(Unit) {
         // In a real app, you would get this from a saved state or auth repository
