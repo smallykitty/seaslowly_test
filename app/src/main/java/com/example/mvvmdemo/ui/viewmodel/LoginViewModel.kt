@@ -1,29 +1,26 @@
 package com.example.mvvmdemo.ui.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.mvvmdemo.data.model.LoginRequest
 import com.example.mvvmdemo.data.repository.UserRepository
+import com.example.mvvmdemo.network.exception.NetworkException
+import com.example.mvvmdemo.network.repository.AuthRepository
 import com.example.mvvmdemo.notification.LoginNotificationManager
-import kotlinx.coroutines.launch
 
 class LoginViewModel(
     application: Application,
-    private val repository: UserRepository = UserRepository(),
+    private val localRepository: UserRepository = UserRepository(),
+    private val authRepository: AuthRepository = AuthRepository(),
     private val notificationManager: LoginNotificationManager = LoginNotificationManager(application.applicationContext)
-) : AndroidViewModel(application) {
+) : BaseNetworkViewModel(application) {
 
     private val _email = MutableLiveData("")
     val email: LiveData<String> = _email
 
     private val _password = MutableLiveData("")
     val password: LiveData<String> = _password
-
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
@@ -54,22 +51,19 @@ class LoginViewModel(
             return
         }
 
-        _isLoading.value = true
-        _errorMessage.value = null
-        _loginSuccess.value = false
-
-        viewModelScope.launch {
-            val result = repository.login(LoginRequest(email, password))
-            _isLoading.value = false
-
-            result.fold(
-                onSuccess = {
-                    notificationManager.showLoginSuccessNotification(it.email)
-                    _loginSuccess.value = true
-                },
-                onFailure = { _errorMessage.value = it.message }
-            )
-        }
+        val loginRequest = LoginRequest(email, password)
+        
+        executeNetworkRequest(
+            request = authRepository.login(loginRequest),
+            onSuccess = { user ->
+                notificationManager.showLoginSuccessNotification(user.email)
+                _loginSuccess.value = true
+            },
+            onError = { exception ->
+                _errorMessage.value = exception.message ?: "Login failed"
+                _networkError.value = exception
+            }
+        )
     }
 
     fun clearError() {

@@ -1,14 +1,17 @@
 package com.example.mvvmdemo.ui.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.mvvmdemo.data.model.RegistrationRequest
 import com.example.mvvmdemo.data.repository.UserRepository
-import kotlinx.coroutines.launch
+import com.example.mvvmdemo.network.repository.AuthRepository
 
-class RegistrationViewModel(private val repository: UserRepository = UserRepository()) : ViewModel() {
+class RegistrationViewModel(
+    application: Application,
+    private val localRepository: UserRepository = UserRepository(),
+    private val authRepository: AuthRepository = AuthRepository()
+) : BaseNetworkViewModel(application) {
     
     private val _email = MutableLiveData("")
     val email: LiveData<String> = _email
@@ -18,9 +21,6 @@ class RegistrationViewModel(private val repository: UserRepository = UserReposit
     
     private val _confirmPassword = MutableLiveData("")
     val confirmPassword: LiveData<String> = _confirmPassword
-    
-    private val _isLoading = MutableLiveData(false)
-    val isLoading: LiveData<Boolean> = _isLoading
     
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> = _errorMessage
@@ -60,18 +60,18 @@ class RegistrationViewModel(private val repository: UserRepository = UserReposit
             return
         }
         
-        _isLoading.value = true
-        _errorMessage.value = null
+        val registrationRequest = RegistrationRequest(email, password, confirmPassword)
         
-        viewModelScope.launch {
-            val result = repository.register(RegistrationRequest(email, password, confirmPassword))
-            _isLoading.value = false
-            
-            result.fold(
-                onSuccess = { _registrationSuccess.value = true },
-                onFailure = { _errorMessage.value = it.message }
-            )
-        }
+        executeNetworkRequest(
+            request = authRepository.register(registrationRequest),
+            onSuccess = {
+                _registrationSuccess.value = true
+            },
+            onError = { exception ->
+                _errorMessage.value = exception.message ?: "Registration failed"
+                _networkError.value = exception
+            }
+        )
     }
     
     fun clearError() {
