@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mvvmdemo.data.model.LoginRequest
 import com.example.mvvmdemo.data.repository.UserRepository
-import com.example.mvvmdemo.network.exception.NetworkException
 import com.example.mvvmdemo.network.repository.AuthRepository
 import com.example.mvvmdemo.notification.LoginNotificationManager
 

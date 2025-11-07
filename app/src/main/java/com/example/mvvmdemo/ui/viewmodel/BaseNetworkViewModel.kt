@@ -11,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 open class BaseNetworkViewModel(application: Application) : AndroidViewModel(application) {
     protected val compositeDisposable = CompositeDisposable()
 
-    private val _networkError = MutableLiveData<NetworkException?>()
+    val _networkError = MutableLiveData<NetworkException?>()
     val networkError: LiveData<NetworkException?> = _networkError
 
     private val _isLoading = MutableLiveData(false)

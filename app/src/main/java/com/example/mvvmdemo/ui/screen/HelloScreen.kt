@@ -12,6 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.*
 import com.example.mvvmdemo.ui.utils.getResponsivePadding
 import com.example.mvvmdemo.ui.utils.getResponsiveSpacing
 import com.example.mvvmdemo.ui.utils.getResponsiveValue

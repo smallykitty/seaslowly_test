@@ -68,7 +68,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
 
     val responsivePadding = getResponsivePadding()
     val responsiveSpacing = getResponsiveSpacing()
-    val tablet = isTablet()
+    //val tablet = isTablet()
     val formMaxWidth = getResponsiveValue(
         small = 320.dp,
         medium = 400.dp,
