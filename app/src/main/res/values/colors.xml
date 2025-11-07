@@ -3,4 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="notification_accent">#FF4CAF50</color>
+
+    <color name="color_primary">#FF6750A4</color>
+    <color name="color_primary_variant">#FF625B71</color>
+    <color name="color_secondary">#FF4CAF50</color>
+    <color name="color_background">#FFF5F7FA</color>
+    <color name="color_surface">#FFFFFFFF</color>
+    <color name="color_text_primary">#FF1E1E1E</color>
+    <color name="color_text_secondary">#FF5A5A5A</color>
+    <color name="color_divider">#FFE0E0E0</color>
 </resources>

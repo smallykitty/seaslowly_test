@@ -1,21 +1,48 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# ------------------------------------------
+# Android 框架与 Jetpack 组件
+# ------------------------------------------
+-keep class android.** { *; }
+-dontwarn android.**
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+-keep class androidx.lifecycle.** { *; }
+-dontwarn androidx.lifecycle.**
+-keep class androidx.activity.** { *; }
+-keep class androidx.navigation.** { *; }
+-keep class androidx.compose.** { *; }
+-dontwarn androidx.compose.**
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# 保留所有 ViewModel，避免字段被混淆
+-keep class * extends androidx.lifecycle.ViewModel { *; }
+-keepclassmembers class * extends androidx.lifecycle.ViewModel { *; }
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# LiveData 相关内部类
+-keepclassmembers class androidx.lifecycle.LiveData { *; }
+-keepclassmembers class androidx.lifecycle.MutableLiveData { *; }
+
+# ------------------------------------------
+# Retrofit / OkHttp / RxJava / Gson
+# ------------------------------------------
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *; }
+-dontwarn okio.**
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keep interface retrofit2.** { *; }
+
+-dontwarn io.reactivex.**
+-keep class io.reactivex.** { *; }
+-dontwarn org.reactivestreams.**
+
+-keep class com.google.gson.** { *; }
+-keep class com.example.mvvmdemo.data.model.** { *; }
+-keep class com.example.mvvmdemo.network.response.** { *; }
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# ------------------------------------------
+# 应用业务层
+# ------------------------------------------
+-keep class com.example.mvvmdemo.** { *; }
+-dontwarn com.example.mvvmdemo.**

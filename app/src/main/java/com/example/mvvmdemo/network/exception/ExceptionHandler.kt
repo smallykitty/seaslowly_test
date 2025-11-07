@@ -6,7 +6,16 @@ import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.ConnectException
 
+/**
+ * 网络异常统一处理工具。
+ *
+ * 将第三方库抛出的异常转换为 [NetworkException]，并提供重试策略判断。
+ */
 object ExceptionHandler {
+
+    /**
+     * 将任意 [Throwable] 转换为业务可识别的 [NetworkException]。
+     */
     fun handleException(throwable: Throwable): NetworkException {
         return when (throwable) {
             is NetworkException -> throwable
@@ -14,7 +23,7 @@ object ExceptionHandler {
                 val code = throwable.code()
                 val message = throwable.message()
                 val errorBody = throwable.response()?.errorBody()?.string()
-                
+
                 when {
                     code in 400..499 -> NetworkException.ClientError(
                         code = code,
@@ -61,6 +70,12 @@ object ExceptionHandler {
         }
     }
 
+    /**
+     * 判断当前异常是否值得重试。
+     *
+     * - 客户端 4xx 错误不重试
+     * - 其他类型的异常允许重试
+     */
     fun shouldRetry(throwable: Throwable): Boolean {
         val exception = if (throwable is NetworkException) throwable else handleException(throwable)
         return when (exception) {
