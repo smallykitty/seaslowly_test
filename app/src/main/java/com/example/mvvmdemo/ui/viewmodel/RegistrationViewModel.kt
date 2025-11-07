@@ -69,7 +69,6 @@ class RegistrationViewModel(
             },
             onError = { exception ->
                 _errorMessage.value = exception.message ?: "Registration failed"
-                _networkError.value = exception
             }
         )
     }

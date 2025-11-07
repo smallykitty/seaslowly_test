@@ -61,7 +61,6 @@ class LoginViewModel(
             },
             onError = { exception ->
                 _errorMessage.value = exception.message ?: "Login failed"
-                _networkError.value = exception
             }
         )
     }
