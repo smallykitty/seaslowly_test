@@ -7,6 +7,15 @@
         android:name="android.permission.POST_NOTIFICATIONS"
         tools:targetApi="33" />
 
+    <!-- Screen size support declaration -->
+    <supports-screens
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true"
+        android:anyDensity="true"
+        android:requiresSmallestWidthDp="320" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,12 +30,22 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.MVVMDemo">
+            android:theme="@style/Theme.MVVMDemo"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+            android:resizeableActivity="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- Display cutout (notch) support -->
+            <meta-data
+                android:name="android.notch_support"
+                android:value="true" />
         </activity>
+        <!-- Enable display cutout support for apps targeting Android 9+ -->
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
     </application>
 
 </manifest>

@@ -1,6 +1,8 @@
 package com.example.mvvmdemo.ui.screen
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -11,6 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.mvvmdemo.MainActivity
+import com.example.mvvmdemo.ui.utils.getResponsivePadding
+import com.example.mvvmdemo.ui.utils.getResponsiveSpacing
+import com.example.mvvmdemo.ui.utils.getResponsiveValue
 import com.example.mvvmdemo.ui.viewmodel.RegistrationViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,83 +36,106 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
         }
     }
 
-    Column(
+    val responsivePadding = getResponsivePadding()
+    val responsiveSpacing = getResponsiveSpacing()
+    val formMaxWidth = getResponsiveValue(
+        small = 320.dp,
+        medium = 400.dp,
+        large = 500.dp,
+        extraLarge = 600.dp
+    )
+
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(responsivePadding),
+        contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = "Register",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { viewModel.onEmailChanged(it) },
-            label = { Text("Email/Username") },
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            enabled = !isLoading
-        )
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { viewModel.onPasswordChanged(it) },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            enabled = !isLoading
-        )
-
-        OutlinedTextField(
-            value = confirmPassword,
-            onValueChange = { viewModel.onConfirmPasswordChanged(it) },
-            label = { Text("Confirm Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            enabled = !isLoading
-        )
-
-        errorMessage?.let { message ->
+                .verticalScroll(rememberScrollState())
+                .widthIn(max = formMaxWidth),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
             Text(
-                text = message,
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(bottom = 16.dp)
+                text = "Register",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = responsiveSpacing * 3)
             )
-        }
 
-        Button(
-            onClick = { 
-                viewModel.register()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-            enabled = !isLoading
-        ) {
-            if (isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
+            OutlinedTextField(
+                value = email,
+                onValueChange = { viewModel.onEmailChanged(it) },
+                label = { Text("Email/Username") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = responsiveSpacing),
+                enabled = !isLoading
+            )
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { viewModel.onPasswordChanged(it) },
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = responsiveSpacing),
+                enabled = !isLoading
+            )
+
+            OutlinedTextField(
+                value = confirmPassword,
+                onValueChange = { viewModel.onConfirmPasswordChanged(it) },
+                label = { Text("Confirm Password") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = responsiveSpacing),
+                enabled = !isLoading
+            )
+
+            errorMessage?.let { message ->
+                Text(
+                    text = message,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(bottom = responsiveSpacing),
+                    style = MaterialTheme.typography.bodySmall
                 )
-            } else {
-                Text("Register")
             }
-        }
 
-        TextButton(
-            onClick = { navController.navigateUp() },
-            enabled = !isLoading
-        ) {
-            Text("Already have an account? Login")
+            Button(
+                onClick = { 
+                    viewModel.register()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(getResponsiveValue(
+                        small = 48.dp,
+                        medium = 52.dp,
+                        large = 56.dp,
+                        extraLarge = 60.dp
+                    ))
+                    .padding(bottom = responsiveSpacing),
+                enabled = !isLoading
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                } else {
+                    Text("Register")
+                }
+            }
+
+            TextButton(
+                onClick = { navController.navigateUp() },
+                enabled = !isLoading
+            ) {
+                Text("Already have an account? Login")
+            }
         }
     }
 }
