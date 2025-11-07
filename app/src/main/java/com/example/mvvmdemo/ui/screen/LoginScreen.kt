@@ -21,12 +21,23 @@ import com.example.mvvmdemo.MainActivity
 import com.example.mvvmdemo.R
 import com.example.mvvmdemo.ui.viewmodel.LoginViewModel
 
+/**
+ * 登录页面的 Jetpack Compose 实现。
+ *
+ * 通过观察 [LoginViewModel] 暴露的 LiveData 来同步界面状态，并在点击登录按钮时发起网络请求。
+ * 该页面同时兼容 Android 13 及以上的通知权限请求逻辑。
+ *
+ * @param navController 用于跳转到注册页或欢迎页的导航控制器
+ * @param viewModel 登录业务所依赖的视图模型，默认通过 [viewModel] 函数注入
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewModel()) {
     val context = LocalContext.current
+    // Activity 引用用于触发运行时权限请求
     val activity = context as? Activity
 
+    // 使用 LiveData 驱动输入框和按钮的 UI 状态
     val email by viewModel.email.observeAsState("")
     val password by viewModel.password.observeAsState("")
     val isLoading by viewModel.isLoading.observeAsState(false)
@@ -36,6 +47,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
     var notificationPermissionMessage by remember { mutableStateOf<String?>(null) }
     var pendingLogin by remember { mutableStateOf(false) }
 
+    // 通知权限请求启动器，结合 remember 确保只创建一次
     val notificationPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -51,6 +63,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
         viewModel.login()
     }
 
+    // 登录成功后跳转到欢迎页，并清除通知提示文案
     LaunchedEffect(loginSuccess) {
         if (loginSuccess == true) {
             notificationPermissionMessage = null
@@ -122,6 +135,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
                         return@Button
                     }
 
+                    // 依据系统策略决定是否展示权限说明弹窗
                     val shouldShowRationale = ActivityCompat.shouldShowRequestPermissionRationale(
                         activity,
                         Manifest.permission.POST_NOTIFICATIONS
@@ -141,6 +155,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = viewMo
                     } else {
                         null
                     }
+                    // 权限已满足，直接调用登录逻辑
                     viewModel.login()
                 }
             },

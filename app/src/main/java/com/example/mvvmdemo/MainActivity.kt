@@ -15,10 +15,14 @@ import com.example.mvvmdemo.ui.screen.LoginScreen
 import com.example.mvvmdemo.ui.screen.RegistrationScreen
 import com.example.mvvmdemo.ui.theme.MVVMDemoTheme
 
+/**
+ * 应用的入口 Activity，负责托管 Compose 导航容器。
+ */
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 支持从通知直接跳转到欢迎页
         val startDestination = if (intent?.getStringExtra(EXTRA_NAVIGATE_TO) == ROUTE_HELLO) {
             ROUTE_HELLO
         } else {

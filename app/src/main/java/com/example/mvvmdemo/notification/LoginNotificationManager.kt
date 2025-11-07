@@ -17,10 +17,16 @@ import androidx.core.graphics.drawable.toBitmap
 import com.example.mvvmdemo.MainActivity
 import com.example.mvvmdemo.R
 
+/**
+ * 登录成功通知的管理器，封装消息体构建与权限兜底。
+ */
 class LoginNotificationManager(private val context: Context) {
 
     private val notificationManager = NotificationManagerCompat.from(context)
 
+    /**
+     * 判断当前是否可以发送通知。
+     */
     fun canPostNotifications(): Boolean {
         val hasPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(
@@ -33,6 +39,9 @@ class LoginNotificationManager(private val context: Context) {
         return hasPermission && notificationManager.areNotificationsEnabled()
     }
 
+    /**
+     * 确保通知渠道已创建（Android 8.0+ 必须）。
+     */
     fun ensureNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
@@ -47,6 +56,9 @@ class LoginNotificationManager(private val context: Context) {
         }
     }
 
+    /**
+     * 展示登录成功通知。
+     */
     @SuppressLint("MissingPermission")
     fun showLoginSuccessNotification(userIdentifier: String) {
         if (!canPostNotifications()) return

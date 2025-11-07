@@ -13,9 +13,18 @@ import androidx.navigation.NavController
 import com.example.mvvmdemo.MainActivity
 import com.example.mvvmdemo.ui.viewmodel.RegistrationViewModel
 
+/**
+ * 注册页面的 Jetpack Compose 实现。
+ *
+ * 通过双向数据绑定展示注册流程的字段与错误状态，并在注册成功后自动跳转到欢迎页。
+ *
+ * @param navController 用于在登录页、注册页与欢迎页之间切换的导航控制器
+ * @param viewModel 负责处理注册逻辑的 [RegistrationViewModel] 实例
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegistrationScreen(navController: NavController, viewModel: RegistrationViewModel = viewModel()) {
+    // 监听 ViewModel 暴露的状态，保持 UI 的实时刷新
     val email by viewModel.email.observeAsState("")
     val password by viewModel.password.observeAsState("")
     val confirmPassword by viewModel.confirmPassword.observeAsState("")
@@ -23,6 +32,7 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
     val errorMessage by viewModel.errorMessage.observeAsState()
     val registrationSuccess by viewModel.registrationSuccess.observeAsState()
 
+    // 注册成功后直接加入导航栈，避免重复返回到注册页面
     LaunchedEffect(registrationSuccess) {
         if (registrationSuccess == true) {
             navController.navigate(MainActivity.ROUTE_HELLO) {
@@ -85,7 +95,8 @@ fun RegistrationScreen(navController: NavController, viewModel: RegistrationView
         }
 
         Button(
-            onClick = { 
+            onClick = {
+                // 触发注册流程，ViewModel 会完成本地校验与网络请求
                 viewModel.register()
             },
             modifier = Modifier

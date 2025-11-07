@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MVVMDemo" parent="Theme.Material3.DayNight">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.MVVMDemo" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/color_secondary</item>
+        <item name="colorSurface">@color/color_surface</item>
+        <item name="colorOnSurface">@color/color_text_primary</item>
+        <item name="android:colorBackground">@color/color_background</item>
+        <item name="android:textColorPrimary">@color/color_text_primary</item>
+        <item name="android:textColorSecondary">@color/color_text_secondary</item>
+        <item name="android:navigationBarColor">@color/color_surface</item>
+        <item name="android:statusBarColor">@color/color_primary_variant</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowBackground">@color/color_background</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="materialButtonStyle">@style/Widget.MVVMDemo.Button</item>
+        <item name="materialCardViewStyle">@style/Widget.MVVMDemo.Card</item>
     </style>
 
     <style name="Theme.MVVMDemo" parent="Base.Theme.MVVMDemo" />
+
+    <style name="Widget.MVVMDemo.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">@dimen/button_corner_radius</item>
+    </style>
+
+    <style name="Widget.MVVMDemo.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:padding">@dimen/spacing_large</item>
+    </style>
 </resources>

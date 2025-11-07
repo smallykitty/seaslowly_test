@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 注册页面的 XML 布局文件
+     采用 ConstraintLayout 布局容器，支持响应式设计和不同屏幕尺寸。
+     主要包含邮箱、密码、确认密码输入框、注册按钮及登录链接。
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context="com.example.mvvmdemo.MainActivity">
+
+    <!-- 可滚动容器，用于处理屏幕显示内容超长的情况 -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:padding="@dimen/spacing_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Material Design 卡片容器，包含整个注册表单 -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxWidth="@dimen/layout_max_width"
+            android:padding="@dimen/spacing_large"
+            app:cardElevation="4dp"
+            app:cardUseCompatPadding="false"
+            app:strokeColor="@color/color_divider"
+            app:strokeWidth="1dp">
+
+            <!-- 竖直方向的线性布局，组织表单元素 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 页面标题 -->
+                <TextView
+                    android:id="@+id/titleRegister"
+                    style="@style/TextAppearance.MVVMDemo.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_title" />
+
+                <!-- 页面副标题 -->
+                <TextView
+                    android:id="@+id/subtitleRegister"
+                    style="@style/TextAppearance.MVVMDemo.Subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/register_subtitle" />
+
+                <!-- 邮箱输入框容器，带有开始图标 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutRegisterEmail"
+                    style="@style/Widget.MVVMDemo.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:hint="@string/register_email_hint"
+                    app:startIconDrawable="@android:drawable/ic_menu_send">
+
+                    <!-- 邮箱输入框，支持 Email 输入法 -->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputRegisterEmail"
+                        style="@style/Widget.MVVMDemo.TextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 密码输入框容器，带有锁图标和显示/隐藏切换 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutRegisterPassword"
+                    style="@style/Widget.MVVMDemo.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="@string/register_password_hint"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+
+                    <!-- 密码输入框，支持密码掩盖 -->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputRegisterPassword"
+                        style="@style/Widget.MVVMDemo.TextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 确认密码输入框容器，带有锁图标和显示/隐藏切换 -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutRegisterConfirmPassword"
+                    style="@style/Widget.MVVMDemo.TextInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:hint="@string/register_confirm_password_hint"
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@android:drawable/ic_lock_idle_lock">
+
+                    <!-- 确认密码输入框，支持密码掩盖 -->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputRegisterConfirmPassword"
+                        style="@style/Widget.MVVMDemo.TextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- 表单验证错误提示文本，默认隐藏 -->
+                <TextView
+                    android:id="@+id/textRegisterValidation"
+                    style="@style/TextAppearance.MVVMDemo.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:text="@string/register_error_password_mismatch"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
+
+                <!-- 注册按钮，提交表单 -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonRegister"
+                    style="@style/Widget.MVVMDemo.PrimaryButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:text="@string/register_button"
+                    app:iconGravity="textStart"
+                    app:iconPadding="12dp" />
+
+                <!-- 登录链接，跳转到登录页 -->
+                <TextView
+                    android:id="@+id/textToLogin"
+                    style="@style/TextAppearance.MVVMDemo.Body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/spacing_medium"
+                    android:text="@string/register_to_login"
+                    android:textColor="@color/color_primary" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

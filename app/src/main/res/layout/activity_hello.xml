@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 欢迎页面的 XML 布局文件
+     采用 ConstraintLayout 布局容器，支持响应式设计和不同屏幕尺寸。
+     主要展示欢迎消息、用户信息及返回/注册操作按钮。
+-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_background"
+    tools:context="com.example.mvvmdemo.MainActivity">
+
+    <!-- 欢迎信息卡片，展示登录成功提示和用户信息 -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardWelcome"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_extra_large"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:maxWidth="@dimen/layout_max_width"
+        android:padding="@dimen/spacing_large"
+        app:cardElevation="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonActions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/color_divider"
+        app:strokeWidth="1dp">
+
+        <!-- 竖直方向的线性布局，组织欢迎页面内容 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- 页面标题 -->
+            <TextView
+                android:id="@+id/titleHello"
+                style="@style/TextAppearance.MVVMDemo.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hello_title" />
+
+            <!-- 欢迎消息，动态显示用户邮箱 -->
+            <TextView
+                android:id="@+id/textHelloMessage"
+                style="@style/TextAppearance.MVVMDemo.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:text="@string/hello_message"
+                tools:text="你好，用户@example.com！" />
+
+            <!-- 分割线，视觉上分隔欢迎消息和详细描述 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:background="@color/color_divider" />
+
+            <!-- 登录成功详细描述 -->
+            <TextView
+                android:id="@+id/textHelloDescription"
+                style="@style/TextAppearance.MVVMDemo.Body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:text="@string/hello_description" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 底部操作按钮容器 -->
+    <LinearLayout
+        android:id="@+id/buttonActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:maxWidth="@dimen/layout_max_width"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 返回登录按钮，提供退出登录选项 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonBackToLogin"
+            style="@style/Widget.MVVMDemo.PrimaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_back_to_login" />
+
+        <!-- 前往注册按钮，支持多账户切换 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonGoToRegister"
+            style="@style/Widget.MVVMDemo.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_small"
+            android:text="@string/hello_go_to_register" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
