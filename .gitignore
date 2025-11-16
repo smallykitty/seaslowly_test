@@ -85,3 +85,21 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
+
+# Xcode
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xccheckout
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xcuserdatad
+*.moved-aside
+DerivedData/
+.DS_Store
+
+# iOS build artifacts
+ios/build/
+ios/DerivedData/
