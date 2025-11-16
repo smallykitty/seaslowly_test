@@ -45,3 +45,18 @@ app/src/main/java/com/example/mvvmdemo/
 │   └── viewmodel/      # ViewModels
 └── MainActivity.kt     # Main activity
 ```
+
+## iOS Project
+
+An iOS implementation of MVVMDemo is available under the [`ios/`](ios) directory. The project uses the SwiftUI app lifecycle and is configured for Swift and Objective-C interoperability through a bridging header.
+
+### Requirements
+- Xcode 14 or later
+- iOS 15.0+ deployment target
+
+### Opening and Running the App
+1. Open `ios/MVVMDemo.xcodeproj` in Xcode (double-click the project file or run `open ios/MVVMDemo.xcodeproj` from the terminal).
+2. Select an iOS simulator or a connected device.
+3. Build and run with `⌘ + R`.
+
+The default SwiftUI entry screen demonstrates the Objective-C bridge by displaying a message generated from the `ObjCHelper` class. For more information about the structure and configuration of the iOS project, refer to [`ios/README.md`](ios/README.md).
